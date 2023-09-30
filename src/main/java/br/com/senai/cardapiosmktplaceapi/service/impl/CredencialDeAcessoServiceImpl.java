@@ -1,5 +1,6 @@
 package br.com.senai.cardapiosmktplaceapi.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +14,8 @@ import br.com.senai.cardapiosmktplaceapi.security.CredencialDeAcesso;
 
 @Service
 public class CredencialDeAcessoServiceImpl implements UserDetailsService {
-
+	
+	@Autowired
 	private UsuariosRepository repository;
 	
 	@Override

@@ -21,33 +21,31 @@ public class FiltroDeAutenticacaoJwt extends OncePerRequestFilter {
 
 	@Autowired
 	private GerenciadorDeTokenJwt gerenciadorDeToken;
-	
+
+	@Autowired
 	private CredencialDeAcessoServiceImpl service;
-	
+
 	@Override
-	protected void doFilterInternal(HttpServletRequest request,
-			HttpServletResponse response, FilterChain filterChain)
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
 		String authHeader = request.getHeader("Authorization");
 		String token = null;
 		String login = null;
-		
-		boolean isHeaderAuthorizationPresente = authHeader != null
-				&& authHeader.startsWith("Bearer");
+
+		boolean isHeaderAuthorizationPresente = authHeader != null && authHeader.startsWith("Bearer");
 		if (isHeaderAuthorizationPresente) {
 			token = authHeader.substring(7);
 			login = gerenciadorDeToken.extrairLoginDo(token);
 		}
-		
-		boolean isNovoLogin = login != null && SecurityContextHolder.getContext()
-				.getAuthentication() == null;
-		
+
+		boolean isNovoLogin = login != null && SecurityContextHolder.getContext().getAuthentication() == null;
+
 		if (isNovoLogin) {
 			UserDetails credencial = service.loadUserByUsername(login);
-			if(gerenciadorDeToken.isValido(token, credencial)) {
-				UsernamePasswordAuthenticationToken tokenAutenticado = 
-						new UsernamePasswordAuthenticationToken(credencial, null, credencial.getAuthorities());
+			if (gerenciadorDeToken.isValido(token, credencial)) {
+				UsernamePasswordAuthenticationToken tokenAutenticado = new UsernamePasswordAuthenticationToken(
+						credencial, null, credencial.getAuthorities());
 				tokenAutenticado.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				SecurityContextHolder.getContext().setAuthentication(tokenAutenticado);
 			}

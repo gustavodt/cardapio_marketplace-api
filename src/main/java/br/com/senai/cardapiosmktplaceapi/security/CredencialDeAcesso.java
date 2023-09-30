@@ -9,7 +9,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.senai.cardapiosmktplaceapi.entity.Usuario;
+import lombok.Data;
 
+@Data
 public class CredencialDeAcesso  implements UserDetails{
 	
 	private static final long serialVersionUID = 1L;

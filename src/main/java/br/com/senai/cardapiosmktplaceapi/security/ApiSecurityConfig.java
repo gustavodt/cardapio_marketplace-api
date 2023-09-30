@@ -37,6 +37,7 @@ public class ApiSecurityConfig {
 		return new  BCryptPasswordEncoder();
 	}
 	
+	@Bean
 	public AuthenticationManager  authenticationManager(
 		AuthenticationConfiguration authConfig) throws Exception {
 			return authConfig.getAuthenticationManager();
@@ -46,7 +47,7 @@ public class ApiSecurityConfig {
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
 		authenticationProvider.setUserDetailsService(service);
 		authenticationProvider.setPasswordEncoder(passwordEnconder());
-		return authenticationProvider();
+		return authenticationProvider;
 		}
 	
 	private UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource() {
